@@ -1,6 +1,6 @@
 module.exports = {
   variants: {
-    article: {
+    media: {
       resize: {
         detail: "800x600"
       },

@@ -2,7 +2,7 @@
 
 # Nodejs Express Mongoose Demo
 
-This is a demo node.js application illustrating various features used in everyday web development, with a fine touch of best practices. The demo app is a blog application where users (signing up using facebook, twitter, github and simple registrations) can create an article, delete an article and add comments on the article.
+This is a demo node.js application illustrating various features used in everyday web development, with a fine touch of best practices. The demo app is a blog application where users (signing up using facebook, twitter, github and simple registrations) can create an media, delete an media and add comments on the media.
 
 Read the [wiki](https://github.com/madhums/node-express-mongoose/wiki) (or the [old blog post](http://madhums.me/2012/07/19/breaking-down-app-js-file-nodejs-express-mongoose/)) for the application architecture.
 

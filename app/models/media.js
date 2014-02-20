@@ -28,10 +28,10 @@ var setTags = function (tags) {
 }
 
 /**
- * Article Schema
+ * media Schema
  */
 
-var ArticleSchema = new Schema({
+var mediaSchema = new Schema({
   title: {type : String, default : '', trim : true},
   body: {type : String, default : '', trim : true},
   user: {type : Schema.ObjectId, ref : 'User'},
@@ -52,21 +52,21 @@ var ArticleSchema = new Schema({
  * Validations
  */
 
-ArticleSchema.path('title').required(true, 'Article title cannot be blank');
-ArticleSchema.path('body').required(true, 'Article body cannot be blank');
+mediaSchema.path('title').required(true, 'media title cannot be blank');
+mediaSchema.path('body').required(true, 'media body cannot be blank');
 
 /**
  * Pre-remove hook
  */
 
-ArticleSchema.pre('remove', function (next) {
+mediaSchema.pre('remove', function (next) {
   var imager = new Imager(imagerConfig, 'S3')
   var files = this.image.files
 
   // if there are files associated with the item, remove from the cloud too
   imager.remove(files, function (err) {
     if (err) return next(err)
-  }, 'article')
+  }, 'media')
 
   next()
 })
@@ -75,10 +75,10 @@ ArticleSchema.pre('remove', function (next) {
  * Methods
  */
 
-ArticleSchema.methods = {
+mediaSchema.methods = {
 
   /**
-   * Save article and upload image
+   * Save media and upload image
    *
    * @param {Object} images
    * @param {Function} cb
@@ -99,7 +99,7 @@ ArticleSchema.methods = {
           self.image = { cdnUri : cdnUri, files : files }
         }
         self.save(cb)
-      }, 'article')
+      }, 'media')
     })
   },
 
@@ -122,7 +122,7 @@ ArticleSchema.methods = {
 
     if (!this.user.email) this.user.email = 'email@product.com'
     notify.comment({
-      article: this,
+      media: this,
       currentUser: user,
       comment: comment.body
     })
@@ -150,10 +150,10 @@ ArticleSchema.methods = {
  * Statics
  */
 
-ArticleSchema.statics = {
+mediaSchema.statics = {
 
   /**
-   * Find article by id
+   * Find media by id
    *
    * @param {ObjectId} id
    * @param {Function} cb
@@ -168,7 +168,7 @@ ArticleSchema.statics = {
   },
 
   /**
-   * List articles
+   * List medias
    *
    * @param {Object} options
    * @param {Function} cb
@@ -188,4 +188,4 @@ ArticleSchema.statics = {
 
 }
 
-mongoose.model('Article', ArticleSchema)
+mongoose.model('media', mediaSchema)

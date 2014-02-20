@@ -9,16 +9,16 @@ var mongoose = require('mongoose')
   , app = require('../server')
   , context = describe
   , User = mongoose.model('User')
-  , Article = mongoose.model('Article')
+  , media = mongoose.model('media')
   , agent = request.agent(app)
 
 var count
 
 /**
- * Articles tests
+ * medias tests
  */
 
-describe('Articles', function () {
+describe('medias', function () {
   before(function (done) {
     // create a user
     var user = new User({
@@ -30,22 +30,22 @@ describe('Articles', function () {
     user.save(done)
   })
 
-  describe('GET /articles', function () {
+  describe('GET /medias', function () {
     it('should respond with Content-Type text/html', function (done) {
       agent
-      .get('/articles')
+      .get('/medias')
       .expect('Content-Type', /html/)
       .expect(200)
-      .expect(/Articles/)
+      .expect(/medias/)
       .end(done)
     })
   })
 
-  describe('GET /articles/new', function () {
+  describe('GET /medias/new', function () {
     context('When not logged in', function () {
       it('should redirect to /login', function (done) {
         agent
-        .get('/articles/new')
+        .get('/medias/new')
         .expect('Content-Type', /plain/)
         .expect(302)
         .expect('Location', '/login')
@@ -66,20 +66,20 @@ describe('Articles', function () {
 
       it('should respond with Content-Type text/html', function (done) {
         agent
-        .get('/articles/new')
+        .get('/medias/new')
         .expect('Content-Type', /html/)
         .expect(200)
-        .expect(/New Article/)
+        .expect(/New media/)
         .end(done)
       })
     })
   })
 
-  describe('POST /articles', function () {
+  describe('POST /medias', function () {
     context('When not logged in', function () {
       it('should redirect to /login', function (done) {
         request(app)
-        .get('/articles/new')
+        .get('/medias/new')
         .expect('Content-Type', /plain/)
         .expect(302)
         .expect('Location', '/login')
@@ -100,7 +100,7 @@ describe('Articles', function () {
 
       describe('Invalid parameters', function () {
         before(function (done) {
-          Article.count(function (err, cnt) {
+          media.count(function (err, cnt) {
             count = cnt
             done()
           })
@@ -108,17 +108,17 @@ describe('Articles', function () {
 
         it('should respond with error', function (done) {
           agent
-          .post('/articles')
+          .post('/medias')
           .field('title', '')
           .field('body', 'foo')
           .expect('Content-Type', /html/)
           .expect(200)
-          .expect(/Article title cannot be blank/)
+          .expect(/media title cannot be blank/)
           .end(done)
         })
 
         it('should not save to the database', function (done) {
-          Article.count(function (err, cnt) {
+          media.count(function (err, cnt) {
             count.should.equal(cnt)
             done()
           })
@@ -127,42 +127,42 @@ describe('Articles', function () {
 
       describe('Valid parameters', function () {
         before(function (done) {
-          Article.count(function (err, cnt) {
+          media.count(function (err, cnt) {
             count = cnt
             done()
           })
         })
 
-        it('should redirect to the new article page', function (done) {
+        it('should redirect to the new media page', function (done) {
           agent
-          .post('/articles')
+          .post('/medias')
           .field('title', 'foo')
           .field('body', 'bar')
           .expect('Content-Type', /plain/)
-          .expect('Location', /\/articles\//)
+          .expect('Location', /\/medias\//)
           .expect(302)
           .expect(/Moved Temporarily/)
           .end(done)
         })
 
         it('should insert a record to the database', function (done) {
-          Article.count(function (err, cnt) {
+          media.count(function (err, cnt) {
             cnt.should.equal(count + 1)
             done()
           })
         })
 
-        it('should save the article to the database', function (done) {
-          Article
+        it('should save the media to the database', function (done) {
+          media
           .findOne({ title: 'foo'})
           .populate('user')
-          .exec(function (err, article) {
+          .exec(function (err, media) {
             should.not.exist(err)
-            article.should.be.an.instanceOf(Article)
-            article.title.should.equal('foo')
-            article.body.should.equal('bar')
-            article.user.email.should.equal('foobar@example.com')
-            article.user.name.should.equal('Foo bar')
+            media.should.be.an.instanceOf(media)
+            media.title.should.equal('foo')
+            media.body.should.equal('bar')
+            media.user.email.should.equal('foobar@example.com')
+            media.user.name.should.equal('Foo bar')
             done()
           })
         })

@@ -11,8 +11,8 @@ var utils = require('../../lib/utils')
  */
 
 exports.load = function (req, res, next, id) {
-  var article = req.article
-  utils.findByParam(article.comments, { id: id }, function (err, comment) {
+  var media = req.media
+  utils.findByParam(media.comments, { id: id }, function (err, comment) {
     if (err) return next(err)
     req.comment = comment
     next()
@@ -24,14 +24,14 @@ exports.load = function (req, res, next, id) {
  */
 
 exports.create = function (req, res) {
-  var article = req.article
+  var media = req.media
   var user = req.user
 
-  if (!req.body.body) return res.redirect('/articles/'+ article.id)
+  if (!req.body.body) return res.redirect('/medias/'+ media.id)
 
-  article.addComment(user, req.body, function (err) {
+  media.addComment(user, req.body, function (err) {
     if (err) return res.render('500')
-    res.redirect('/articles/'+ article.id)
+    res.redirect('/medias/'+ media.id)
   })
 }
 
@@ -40,13 +40,13 @@ exports.create = function (req, res) {
  */
 
 exports.destroy = function (req, res) {
-  var article = req.article
-  article.removeComment(req.param('commentId'), function (err) {
+  var media = req.media
+  media.removeComment(req.param('commentId'), function (err) {
     if (err) {
       req.flash('error', 'Oops! The comment was not found')
     } else {
       req.flash('info', 'Removed comment')
     }
-    res.redirect('/articles/' + article.id)
+    res.redirect('/medias/' + media.id)
   })
 }

@@ -24,14 +24,14 @@ exports.user = {
 }
 
 /*
- *  Article authorization routing middleware
+ *  media authorization routing middleware
  */
 
-exports.article = {
+exports.media = {
   hasAuthorization: function (req, res, next) {
-    if (req.article.user.id != req.user.id) {
+    if (req.media.user.id != req.user.id) {
       req.flash('info', 'You are not authorized')
-      return res.redirect('/articles/' + req.article.id)
+      return res.redirect('/medias/' + req.media.id)
     }
     next()
   }
@@ -43,13 +43,13 @@ exports.article = {
 
 exports.comment = {
   hasAuthorization: function (req, res, next) {
-    // if the current user is comment owner or article owner
+    // if the current user is comment owner or media owner
     // give them authority to delete
-    if (req.user.id === req.comment.user.id || req.user.id === req.article.user.id) {
+    if (req.user.id === req.comment.user.id || req.user.id === req.media.user.id) {
       next()
     } else {
       req.flash('info', 'You are not authorized')
-      res.redirect('/articles/' + req.article.id)
+      res.redirect('/medias/' + req.media.id)
     }
   }
 }

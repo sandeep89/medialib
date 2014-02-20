@@ -9,14 +9,14 @@ var async = require('async')
  */
 
 var users = require('../app/controllers/users')
-  , articles = require('../app/controllers/articles')
+  , medias = require('../app/controllers/medias')
   , auth = require('./middlewares/authorization')
 
 /**
  * Route middlewares
  */
 
-var articleAuth = [auth.requiresLogin, auth.article.hasAuthorization]
+var mediaAuth = [auth.requiresLogin, auth.media.hasAuthorization]
 var commentAuth = [auth.requiresLogin, auth.comment.hasAuthorization]
 
 /**
@@ -87,25 +87,25 @@ module.exports = function (app, passport) {
 
   app.param('userId', users.user)
 
-  // article routes
-  app.param('id', articles.load)
-  app.get('/articles', articles.index)
-  app.get('/articles/new', auth.requiresLogin, articles.new)
-  app.post('/articles', auth.requiresLogin, articles.create)
-  app.get('/articles/:id', articles.show)
-  app.get('/articles/:id/edit', articleAuth, articles.edit)
-  app.put('/articles/:id', articleAuth, articles.update)
-  app.del('/articles/:id', articleAuth, articles.destroy)
+  // media routes
+  app.param('id', medias.load)
+  app.get('/medias', medias.index)
+  app.get('/medias/new', auth.requiresLogin, medias.new)
+  app.post('/medias', auth.requiresLogin, medias.create)
+  app.get('/medias/:id', medias.show)
+  app.get('/medias/:id/edit', mediaAuth, medias.edit)
+  app.put('/medias/:id', mediaAuth, medias.update)
+  app.del('/medias/:id', mediaAuth, medias.destroy)
 
   // home route
-  app.get('/', articles.index)
+  app.get('/', medias.index)
 
   // comment routes
   var comments = require('../app/controllers/comments')
   app.param('commentId', comments.load)
-  app.post('/articles/:id/comments', auth.requiresLogin, comments.create)
-  app.get('/articles/:id/comments', auth.requiresLogin, comments.create)
-  app.del('/articles/:id/comments/:commentId', commentAuth, comments.destroy)
+  app.post('/medias/:id/comments', auth.requiresLogin, comments.create)
+  app.get('/medias/:id/comments', auth.requiresLogin, comments.create)
+  app.del('/medias/:id/comments/:commentId', commentAuth, comments.destroy)
 
   // tag routes
   var tags = require('../app/controllers/tags')

@@ -1,0 +1,41 @@
+extends ../layouts/mobile
+
+
+block main
+  h1= media.title
+
+block content
+  .row
+    .span9
+      p=media.body
+      .meta.muted
+        - var name = media.user.name ? media.user.name : media.user.username
+        p Author -&nbsp;
+          a(href="/users/"+media.user._id)= name
+        p.muted= formatDate(media.createdAt, "%b %d, %Y at %I:%M %p")
+        - if (media.tags)
+          .tags
+            - each tag in media.tags.split(',')
+              a.tag(href="/tags/"+tag)
+                i.icon-tags
+                |  #{tag}
+              | &nbsp;&nbsp;
+    .span3
+      - if (!media.isNew && media.image && media.image.files && media.image.files.length)
+        img(src=media.image.cdnUri + '/mini_' + media.image.files[0])
+
+  p
+    br
+    form.center.form-inline.confirm(action="/medias/"+media.id, method="post")
+      input(type='hidden', name='_csrf', value="#{csrf_token}")
+      a.btn(href='/medias/'+media._id+'/edit', title="edit") Edit
+      | &nbsp;&nbsp;
+      input(type="hidden", name="_method", value="DELETE")
+      button.btn.btn-danger(type="submit") delete
+
+  p
+    br
+    h3 Comments
+    - each comment in media.comments
+      include ../comments/comment
+    include ../comments/form

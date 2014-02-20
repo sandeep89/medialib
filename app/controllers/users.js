@@ -13,7 +13,10 @@ var login = function (req, res) {
   res.redirect(redirectTo)
 }
 
-exports.signin = function (req, res) {}
+exports.signin = function (req, res, result) {
+	console.log(result);
+	console.log("signin")
+}
 
 /**
  * Auth callback

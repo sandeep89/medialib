@@ -5,7 +5,7 @@
 
 var mongoose = require('mongoose')
   , async = require('async')
-  , Article = mongoose.model('Article')
+  , media = mongoose.model('media')
   , User = mongoose.model('User')
 
 /**
@@ -21,7 +21,7 @@ exports.clearDb = function (done) {
       User.collection.remove(cb)
     },
     function (cb) {
-      Article.collection.remove(cb)
+      media.collection.remove(cb)
     }
   ], done)
 }
