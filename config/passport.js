@@ -79,13 +79,16 @@ module.exports = function (passport, config) {
       User.findOne({ 'facebook.id': profile.id }, function (err, user) {
         if (err) { return done(err) }
         if (!user) {
+          var facebookProfile = profile._json;
+          facebookProfile.accesstoken = accessToken;
+          facebookProfile.refreshtoken = refreshToken;
           user = new User({
             name: profile.displayName,
             email: profile.emails[0].value,
             username: profile.username,
             provider: 'facebook',
-            facebook: profile._json
-          })
+            facebook: facebookProfile
+          });
           user.save(function (err) {
             if (err) console.log(err)
             return done(err, user)
@@ -179,3 +182,4 @@ module.exports = function (passport, config) {
     }
     ));
 }
+

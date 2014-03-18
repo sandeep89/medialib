@@ -14,7 +14,6 @@ var login = function (req, res) {
 }
 
 exports.signin = function (req, res, result) {
-	console.log(result);
 	console.log("signin")
 }
 
@@ -111,3 +110,4 @@ exports.user = function (req, res, next, id) {
       next()
     })
 }
+

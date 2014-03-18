@@ -31,7 +31,7 @@ var setTags = function (tags) {
  * media Schema
  */
 
-var mediaSchema = new Schema({
+var MediaSchema = new Schema({
   title: {type : String, default : '', trim : true},
   body: {type : String, default : '', trim : true},
   user: {type : Schema.ObjectId, ref : 'User'},
@@ -52,14 +52,14 @@ var mediaSchema = new Schema({
  * Validations
  */
 
-mediaSchema.path('title').required(true, 'media title cannot be blank');
-mediaSchema.path('body').required(true, 'media body cannot be blank');
+MediaSchema.path('title').required(true, 'media title cannot be blank');
+MediaSchema.path('body').required(true, 'media body cannot be blank');
 
 /**
  * Pre-remove hook
  */
 
-mediaSchema.pre('remove', function (next) {
+MediaSchema.pre('remove', function (next) {
   var imager = new Imager(imagerConfig, 'S3')
   var files = this.image.files
 
@@ -75,7 +75,7 @@ mediaSchema.pre('remove', function (next) {
  * Methods
  */
 
-mediaSchema.methods = {
+MediaSchema.methods = {
 
   /**
    * Save media and upload image
@@ -150,7 +150,7 @@ mediaSchema.methods = {
  * Statics
  */
 
-mediaSchema.statics = {
+MediaSchema.statics = {
 
   /**
    * Find media by id
@@ -188,4 +188,4 @@ mediaSchema.statics = {
 
 }
 
-mongoose.model('media', mediaSchema)
+mongoose.model('media', MediaSchema)

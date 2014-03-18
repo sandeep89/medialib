@@ -11,6 +11,7 @@ var mongoose = require('mongoose')
  * Load
  */
 
+
 exports.load = function(req, res, next, id){
   var User = mongoose.model('User')
 
@@ -63,10 +64,11 @@ exports.new = function(req, res){
  */
 
 exports.create = function (req, res) {
-  var media = new media(req.body)
+  console.log(media);
+  var Media = new media(req.body)
   media.user = req.user
 
-  media.uploadAndSave(req.files.image, function (err) {
+  Media.uploadAndSave(req.files.image, function (err) {
     if (!err) {
       req.flash('success', 'Successfully created media!')
       return res.redirect('/medias/'+media._id)
