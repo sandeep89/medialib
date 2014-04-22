@@ -64,19 +64,19 @@ exports.new = function(req, res){
  */
 
 exports.create = function (req, res) {
-  console.log(media);
   var Media = new media(req.body)
-  media.user = req.user
+  Media.user = req.user
 
   Media.uploadAndSave(req.files.image, function (err) {
+    console.log(media._id);
     if (!err) {
       req.flash('success', 'Successfully created media!')
-      return res.redirect('/medias/'+media._id)
+      return res.redirect('/medias/'+Media._id)
     }
 
     res.render('medias/new', {
       title: 'New media',
-      media: media,
+      media: Media,
       error: utils.errors(err.errors || err)
     })
   })
@@ -136,3 +136,4 @@ exports.destroy = function(req, res){
     res.redirect('/medias')
   })
 }
+
