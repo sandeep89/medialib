@@ -110,5 +110,8 @@ module.exports = function (app, passport) {
   // tag routes
   var tags = require('../app/controllers/tags')
   app.get('/tags/:tag', tags.index)
+  
+  app.get('/users/:userId/getFriends', users.getFriends);
 
 }
+

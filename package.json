@@ -1,5 +1,5 @@
 {
-  "name": "nodejs-express-mongoose-demo",
+  "name": "medialib2",
   "description": "A demo app illustrating the usage of express, mongoose, passportjs, jade and other modules in nodejs",
   "keywords": [
     "express",
@@ -11,13 +11,13 @@
   "version": "3.0.0",
   "private": false,
   "author": "Madhusudhan Srinivasa <madhums8@gmail.com> (http://madhums.github.com)",
-  "repository" : {
-    "type" : "git",
-    "url" : "https://github.com/madhums/node-express-mongoose-demo.git"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/madhums/node-express-mongoose-demo.git"
   },
   "engines": {
     "node": "0.10.x",
-    "npm":  "1.2.x"
+    "npm": "1.2.x"
   },
   "scripts": {
     "start": "NODE_ENV=development ./node_modules/.bin/nodemon server.js",
@@ -41,7 +41,8 @@
     "notifier": "latest",
     "async": "latest",
     "view-helpers": "latest",
-    "forever": "latest"
+    "forever": "latest",
+    "request": "~2.34.0"
   },
   "devDependencies": {
     "supertest": "latest",

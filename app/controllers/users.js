@@ -110,4 +110,14 @@ exports.user = function (req, res, next, id) {
       next()
     })
 }
-
+
+exports.getFriends = function(req, res, next){
+  var user = req.profile,
+      accessToken = user.facebook.accesstoken,
+      request = require("request");
+      request("https://graph.facebook.com/me/friends?format=json&access_token=" + accessToken, function(error, response, body) {
+        res.send(body);
+        //next();
+      });
+      
+}
