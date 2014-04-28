@@ -4,35 +4,27 @@ block main
   h1= title
 
 block content
-  - if (medias.length)
-    - each media in medias
-      .media
-        h3
-          a(href='/medias/'+media._id, title=media.title) #{media.title}
-        p= media.body
+  table
+    tbody
+      - if (medias.length)
+        each media in medias
+            tr
+              td 
+                a(href='/medias/'+media._id, title=media.title) #{media.title}
+              td
+                p= media.body
+              td
+                p= formatDate(media.createdAt)
 
-        .meta
-          span.muted= formatDate(media.createdAt)
+              - if (media.tags)
+              td
+                - each tag in media.tags.split(',')
+                  i.muted.fa.fa-tag 
+                  a.tag(href="/tags/"+tag)= tag
 
-          - if (media.user)
-            | &nbsp; - &nbsp;
-            span Author &nbsp;
-
-            - var name = media.user.name ? media.user.name : media.user.username
-
-            a(href="/users/"+media.user._id)= name
-
-          - if (media.tags)
-            | &nbsp; - &nbsp;
-            span Tags &nbsp;
-            - each tag in media.tags.split(',')
-              i.muted.fa.fa-tag &nbsp;
-              a.tag(href="/tags/"+tag)= tag
-              | &nbsp;&nbsp;
-
-    - if (pages > 1)
-      ul.pagination
-        != createPagination(pages, page)
-  - else
-    h4.muted No medias.&nbsp;
-      a(href="/medias/new") create one
+        - if (pages > 1)
+          ul.pagination
+            != createPagination(pages, page)
+      - else
+        h4.muted No medias.&nbsp;
+          a(href="/medias/new") create one
