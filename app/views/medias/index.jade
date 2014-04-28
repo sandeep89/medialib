@@ -5,6 +5,13 @@ block main
 
 block content
   table
+    thead
+      tr
+        th Title
+        th Description
+        th Create Date
+        th Tags
+        th Borrower
     tbody
       - if (medias.length)
         each media in medias
@@ -21,6 +28,7 @@ block content
                 - each tag in media.tags.split(',')
                   i.muted.fa.fa-tag 
                   a.tag(href="/tags/"+tag)= tag
+              td sandeep
 
         - if (pages > 1)
           ul.pagination
