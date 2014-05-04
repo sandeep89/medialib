@@ -23,8 +23,7 @@ block content
         p.muted= formatDate(media.createdAt, "%b %d, %Y at %I:%M %p")
 
     .col-md-4
-      - if (!media.isNew && media.image && media.image.files && media.image.files.length)
-        img(src=media.image.cdnUri + '/mini_' + media.image.files[0])
+      img(src=media.image, alt=media.title, height="242", width="242")
         
         
         
