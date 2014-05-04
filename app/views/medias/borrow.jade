@@ -1,0 +1,44 @@
+extends ../layouts/default
+
+block main
+  h1= media.title
+
+block content
+  .row
+    .col-md-8
+      p=media.body
+      .meta
+        - if (media.user)
+          - var name = media.user.name ? media.user.name : media.user.username
+          p Author :&nbsp;
+            a(href="/users/"+media.user._id)= name
+
+        - if (media.tags)
+          p Tags &nbsp;
+            - each tag in media.tags.split(',')
+              i.muted.fa.fa-tag &nbsp;
+              a.tag(href="/tags/"+tag)= tag
+              | &nbsp;&nbsp;
+
+        p.muted= formatDate(media.createdAt, "%b %d, %Y at %I:%M %p")
+
+    .col-md-4
+      - if (!media.isNew && media.image && media.image.files && media.image.files.length)
+        img(src=media.image.cdnUri + '/mini_' + media.image.files[0])
+        
+        
+        
+  form(action="/medias/"+media.id+"/borrow", method="post", onsubmit="return confirm('Are you sure?')")
+  
+    input(type='hidden', name='_csrf', value="#{csrf_token}")
+    p Given To
+    input.form-control#desc(rows="5", name="borrowedBy", value=media.borrowedBy, placeholder='Enter the borrower name')=media.borrowedBy
+    br
+    button.btn.btn-default(type="submit") Give
+    | &nbsp;
+    a.btn.btn-danger(href='/medias', title="Medias") Back
+    
+  br
+  h3 Comments
+  - each comment in media.comments
+    include ../comments/comment
