@@ -10,6 +10,7 @@ block content
         th Title
         th Description
         th Create Date
+        th Image
         th Tags
         th Borrower
     tbody
@@ -22,7 +23,9 @@ block content
                 p= media.body
               td
                 p= formatDate(media.createdAt)
-
+              td
+                img(src=media.image, alt=media.title, height="42", width="42")
+                
               - if (media.tags)
               td
                 - each tag in media.tags.split(',')

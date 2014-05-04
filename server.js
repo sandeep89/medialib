@@ -12,7 +12,8 @@
 var express = require('express')
   , fs = require('fs')
   , passport = require('passport')
-
+  process.env.TMPDIR = process.env.TMPDIR? process.env.TMPDIR :  "./tmp"
+  process.env.ROOT = process.env.ROOT? process.env.ROOT : "."
 /**
  * Main application entry file.
  * Please note that the order of loading is important.
@@ -65,4 +66,4 @@ console.log('Express app started on port '+port)
 
 // expose app
 exports = module.exports = app
-
+

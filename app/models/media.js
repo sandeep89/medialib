@@ -10,6 +10,7 @@ var mongoose = require('mongoose')
   , imagerConfig = require(config.root + '/config/imager.js')
   , Schema = mongoose.Schema
   , utils = require('../../lib/utils')
+  , rootDirectory = process.env.ROOT 
 
 /**
  * Getters
@@ -91,16 +92,23 @@ MediaSchema.methods = {
     var imager = new Imager(imagerConfig, 'S3')
     var self = this
 
-    this.validate(function (err) {
-      if (err) return cb(err);
-      imager.upload(images, function (err, cdnUri, files) {
-        if (err) return cb(err)
-        if (files.length) {
-          self.image = { cdnUri : cdnUri, files : files }
-        }
-        self.save(cb)
-      }, 'media')
-    })
+    var serverPath = '/public/images/' + images[0].name;
+    var filePath = '/images/' + images[0].name;
+
+	    
+	this.validate(function(err) {
+	
+		if (err)
+			return cb(err);
+		require('fs').rename(images[0].path, rootDirectory + serverPath, function(error) {
+			if (error) {
+				return cb(error);
+			}
+	
+			self.image = filePath;
+			self.save(cb);
+		});
+	}); 
   },
 
   /**
