@@ -13,6 +13,7 @@ block content
         th Image
         th Tags
         th Borrower
+        th Actions
     tbody
       - if (medias.length)
         each media in medias
@@ -31,7 +32,14 @@ block content
                 - each tag in media.tags.split(',')
                   i.muted.fa.fa-tag 
                   a.tag(href="/tags/"+tag)= tag
-              td sandeep
+              td
+               p=media.borrowedBy
+              
+              td
+               - if (media.borrowedBy)
+                a(href='/medias/'+media._id+'/return', title=media.title) Take
+               - if (!media.borrowedBy)
+                a(href='/medias/'+media._id+'/borrow', title=media.title) Give
 
         - if (pages > 1)
           ul.pagination

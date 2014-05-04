@@ -46,6 +46,7 @@ var MediaSchema = new Schema({
     cdnUri: String,
     files: []
   },
+  borrowedBy:{ type : String, default : '' },
   createdAt  : {type : Date, default : Date.now}
 })
 
@@ -88,28 +89,30 @@ MediaSchema.methods = {
 
   uploadAndSave: function (images, cb) {
     if (!images || !images.length) return this.save(cb)
-
-    var imager = new Imager(imagerConfig, 'S3')
     var self = this
 
     var serverPath = '/public/images/' + images[0].name;
     var filePath = '/images/' + images[0].name;
-
-	    
+  
 	this.validate(function(err) {
 	
 		if (err)
-			return cb(err);
-		require('fs').rename(images[0].path, rootDirectory + serverPath, function(error) {
-			if (error) {
-				return cb(error);
-			}
-	
-			self.image = filePath;
+			return cb(err); 
+		if(images[0].name == ''){
 			self.save(cb);
-		});
+		}else{
+			require('fs').rename(images[0].path, rootDirectory + serverPath, function(error) {
+				if (error) {
+					console.log(error)
+					return cb(error);
+				}
+				self.image = filePath;
+				self.save(cb);
+			});
+		}
 	}); 
   },
+
 
   /**
    * Add comment

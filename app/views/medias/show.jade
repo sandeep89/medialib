@@ -20,6 +20,8 @@ block content
               a.tag(href="/tags/"+tag)= tag
               | &nbsp;&nbsp;
 
+        p Given To : &nbsp;
+          span= media.borrowedBy
         p.muted= formatDate(media.createdAt, "%b %d, %Y at %I:%M %p")
 
     .col-md-4

@@ -94,7 +94,10 @@ module.exports = function (app, passport) {
   app.post('/medias', auth.requiresLogin, medias.create)
   app.get('/medias/:id', medias.show)
   app.get('/medias/:id/edit', mediaAuth, medias.edit)
+  app.get('/medias/:id/borrow', mediaAuth, medias.borrow)
+  app.get('/medias/:id/return', mediaAuth, medias.returnBorrowed)
   app.put('/medias/:id', mediaAuth, medias.update)
+  app.post('/medias/:id/borrow', mediaAuth, medias.updateBorrow)
   app.del('/medias/:id', mediaAuth, medias.destroy)
 
   // home route

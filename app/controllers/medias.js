@@ -68,7 +68,6 @@ exports.create = function (req, res) {
   Media.user = req.user
 
   Media.uploadAndSave(req.files.image, function (err) {
-    console.log(media._id);
     if (!err) {
       req.flash('success', 'Successfully created media!')
       return res.redirect('/medias/'+Media._id)
@@ -136,4 +135,36 @@ exports.destroy = function(req, res){
     res.redirect('/medias')
   })
 }
-
+
+exports.updateBorrow = function(req, res){
+  var media = req.media
+  media = extend(media, req.body)
+
+	console.log(media);
+  media.save(function(err) {
+  	console.log(err);
+    if (!err) {
+      return res.redirect('/medias')
+    }
+
+    res.render('medias/borrow', {
+      title: 'Borrow media',
+      media: media,
+      error: utils.errors(err.errors || err)
+    })
+  })
+}	
+
+exports.borrow = function(req, res){
+	res.render('medias/borrow', {
+	    title: req.media.title,
+	    media: req.media
+ 	})
+}
+
+exports.returnBorrowed = function(req, res){
+	res.render('medias/return', {
+	    title: req.media.title,
+	    media: req.media
+ 	})
+}
