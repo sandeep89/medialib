@@ -42,10 +42,7 @@ var MediaSchema = new Schema({
     createdAt: { type : Date, default : Date.now }
   }],
   tags: {type: [], get: getTags, set: setTags},
-  image: {
-    cdnUri: String,
-    files: []
-  },
+  image: { type : String, default : '' },
   borrowedBy:{ type : String, default : '' },
   createdAt  : {type : Date, default : Date.now}
 })
@@ -62,14 +59,15 @@ MediaSchema.path('body').required(true, 'media body cannot be blank');
  */
 
 MediaSchema.pre('remove', function (next) {
-  var imager = new Imager(imagerConfig, 'S3')
+  /* Implement later
+   var imager = new Imager(imagerConfig, 'S3')
   var files = this.image.files
 
   // if there are files associated with the item, remove from the cloud too
   imager.remove(files, function (err) {
     if (err) return next(err)
   }, 'media')
-
+*/
   next()
 })
 

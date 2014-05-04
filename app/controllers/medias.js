@@ -140,7 +140,6 @@ exports.updateBorrow = function(req, res){
   var media = req.media
   media = extend(media, req.body)
 
-	console.log(media);
   media.save(function(err) {
   	console.log(err);
     if (!err) {
